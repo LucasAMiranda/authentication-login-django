@@ -62,37 +62,36 @@ def login(request):
             return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 
-def login_view(request):
-    if request.method == 'POST':
-          form = CustomLoginForm(request.POST)
-          if form.is_valid():
-            cpf = form.cleaned_data['cpf']
-            password = form.cleaned_data['password']
-            user = authenticate(request, cpf=cpf, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success("Login efetuado com sucesso!")
-                return redirect(reverse('home'))
-            else:
-                # Caso as credenciais sejam inválidas, exibir uma mensagem de erro
-                return render(request, 'login.html', {'form': form, 'error': 'Credenciais inválidas'})
-    else:
-        form = CustomLoginForm()
-    return render(request, 'login.html', {'form': form})
-
-
 def cadastro_view(request):
     if request.method == 'POST':
         form = CadastroForm(request.POST)
         if form.is_valid():
-            form.save()
-            # Autentica o usuário recém-cadastrado
+            cpf = form.cleaned_data['cpf']
+            # Verifica se já existe um usuário com este CPF
+            if Usuarios.objects.filter(cpf=cpf).exists():
+                messages.error(request, "Este CPF já está registrado.")
+            else:
+                form.save()
+                messages.success(request, "Cadastro realizado com sucesso!")
+                return redirect('login') # Redireciona para a página inicial após o login
+    else:
+        form = CadastroForm()
+    return render(request, 'cadastro.html', {'form': form})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = CustomLoginForm(request.POST)
+        if form.is_valid():
             cpf = form.cleaned_data['cpf']
             password = form.cleaned_data['password']
             user = authenticate(request, cpf=cpf, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(reverse('login'))  # Redireciona para a página de login após o cadastro
+                messages.success(request, "Login efetuado com sucesso!")
+            else:
+                # Caso as credenciais sejam inválidas, exibir uma mensagem de erro
+                messages.error(request, "Credenciais inválidas. Tente novamente.")
     else:
-        form = CadastroForm()
-    return render(request, 'cadastro.html', {'form': form})
+        form = CustomLoginForm()
+    return render(request, 'login.html', {'form': form})

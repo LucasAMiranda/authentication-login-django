@@ -106,6 +106,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTHENTICATION_BACKENDS = [
+    'usuarios.backends.CPFBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
