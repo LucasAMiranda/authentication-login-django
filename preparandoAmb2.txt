@@ -1,0 +1,102 @@
+instalando o pip >>> python -m ensurepip --default-pip 
+instalando django >>> pip install django-ninja
+
+python -m venv venv (sempre ativar) 
+./venv/Scripts/activate
+	python.exe -m pip install --upgrade pip
+criar arquivo >>> .gitignore <<< (pra não colocar o venv se for subir a pasta pro github)
+
+pip freeze > requirements.txt (no terminal criar arquivo txt com instalações)
+
+django-admin startproject api_root .      (criar pasta api_root)
+python manage.py startapp api_rest
+
+# Depois ir na api_root > settings > add aplicativos em (INSTALLED_APPS)
+    "rest_framework",
+    "corsheaders",
+    "api_rest",
+# Depois add na MIDDLEWARE > "corsheaders.middleware.CorsMiddleware",
+# no fim adicionar > CORS_ALLOW_ORIGINS = [
+    'http://localhost:8080',
+]
+
+<html>
+
+    <head>
+
+    </head>
+
+    <body>
+            ADICIONAR OUTROS PARAMENTROS SALVOS NA LISTA DE ALUNOS ENVIADOS PELO CLIENTE
+        <form method="post">{% csrf_token %} 
+            <label>Nome do aluno</label>
+            <input type="text" placeholder="Nome" name="Nome" id="Nome"><br>
+            <label>Data de Nascimento</label>
+            <input type="date" name="data_nascimento"><br>
+            <label>Nome da mãe</label>
+            <input type="text" placeholder="Nome da mãe" name="nome_mae"><br>
+            <label>Usuario</label>
+            <input type="text" placeholder="Username..." name="usuario"><br>
+            <label>Senha</label>
+            <input type="password" placeholder="Senha..." name="senha"><br>
+            <br>
+            <input type="submit" value="Cadastrar"><br>
+            <br>
+        </form>
+    </body>
+
+</html>
+
+
+#api_rest > MODELS
+instalar biblioteca  >>> pip install django djangorestframework django-cors-headers 
+
+>>>> no terminal instalar: biblioteca de analise de dados pandas
+pip install pandas
+pip install numpy
+pip install openpyxl
+
+
+import pandas as pd
+tabela = pd.read_csv("cadastrosAlunos.csv") >> (nomeDoArquivo.csv)
+print(tabela)
+
+
+instalar ipykernel vscode
+
+
+# importar arquivos do banco de dados
+python manage.py makemigrations 
+python manage.py migrate
+
+
+
+#ler para tela de login
+https://umcodigo.com/autenticacao-com-class-based-views-no-django/
+
+
+
+#instalando e importando dados do csv para o banco de dados
+sqlite3.exe db.sqlite3
+
+sqlite> .mode csv
+sqlite> .import cadastrosAlunosTeste.csv usuarios_usuarios
+
+
+'''def cadastro(request):
+    if request.method == "GET":
+        return HttpResponse(cadastro.html)
+    elif request.method == "POST":
+        cpf = request.POST.get('cpf')
+        return HttpResponse('Você acessou o app')
+            
+    user = User.objects.get(cpf=cpf)
+    
+    if user:
+        return HttpResponse('Já existe um usuario com esse cpf')
+    return HttpResponse(cpf)'''
+
+
+
+
+
